@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xamarin.Forms" Version="4.3.0.991211" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Aqua">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Aqua.dll</HintPath>
+    </Reference>
+    <Reference Include="Aqua.Newtonsoft.Json">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Aqua.Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Remote.Linq">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Remote.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remote.Linq.Newtonsoft.Json">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Remote.Linq.Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Maoui">
+      <HintPath>..\..\maoui\Maoui\bin\Debug\netstandard2.1\Maoui.dll</HintPath>
+    </Reference>
+    <Reference Include="Maoui.Forms">
+      <HintPath>..\..\maoui\Maoui.Forms\bin\Debug\netstandard2.1\Maoui.Forms.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

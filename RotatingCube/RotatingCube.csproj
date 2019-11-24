@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Maoui.Forms\Maoui.Forms.csproj" />
+    <ProjectReference Include="..\..\Maoui.WebGL\Maoui.WebGL.csproj" />
+    <ProjectReference Include="..\..\Maoui\Maoui.csproj" />
+  </ItemGroup>
+
+</Project>
