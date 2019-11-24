@@ -1,6 +1,8 @@
 #!/bin/bash
+export WASM_SDK=/mnt/c/src/mono-wasm
+export EMSDK=/mnt/c/src/emsdk
 echo $# arguments 
-if [ $# == 3 ]
+if [ $# == 2 ]
 then 
     if [ "$2" == "Debug" ] || [ "$2" == "Release" ]
     then
@@ -18,24 +20,13 @@ then
         cd ./bin/$2/netstandard2.1
         echo "moved in "
         pwd
-        if [ $3 == "mt" ]
-        then
-            echo "AOT multithread build..."
-            if [ $2 == "Debug" ]
-            then
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish -debug $1.dll --threads --aot
-            else
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish $1.dll --threads --aot
-            fi
 
+        echo "AOT multithread build..."
+        if [ $2 -eq "Debug" ]
+        then
+            mono $WASM_SDK/packager.exe --emscripten-sdkdir=$EMSDK --mono-sdkdir=$WASM_SDK  -appdir=bin/aot --builddir=obj/aot --link-mode=SdkOnly --threads --aot -debug $1.dll
         else
-            echo "AOT NO multithread"
-            if [ $2 == "Debug" ]
-            then
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish -debug $1.dll --aot
-            else
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish $1.dll --aot
-            fi
+            mono $WASM_SDK/packager.exe --emscripten-sdkdir=$EMSDK --mono-sdkdir=$WASM_SDK  -appdir=bin/aot --builddir=obj/aot --link-mode=SdkOnly --threads --aot $1.dll
         fi
 
         mkdir ./publish/
@@ -50,5 +41,5 @@ then
     fi
 else
     echo "illegal number of parameters"
-    echo "usage: build.sh <assembly> <Debug|Release> [mt|nomt]"
+    echo "usage: build.sh <assembly> <Debug|Release>"
 fi
