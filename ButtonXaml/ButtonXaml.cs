@@ -39,30 +39,26 @@ namespace ButtonXaml
             };
         }
 
-        public async void OnButtonClicked(object sender, EventArgs args)
+        public void OnButtonClicked(object sender, EventArgs args)
         {
             entry.Text = $"Click Count: {++count}";
-            try
-            {
-                var cws = WSHelper.CreateWebSocket();
-                var rcvBuffer = new ArraySegment<byte>(new byte[4096]);
-                Console.WriteLine("connection");
-                await cws.ConnectAsync(new Uri("ws://127.0.0.1:9301/ws"), CancellationToken.None);
-                Console.WriteLine("sending");
-                await cws.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes("test")), WebSocketMessageType.Text, true, CancellationToken.None);
-                var r = await cws.ReceiveAsync(rcvBuffer, CancellationToken.None);
-                Console.WriteLine("receving:" + rcvBuffer);
-                // Console.WriteLine("sending to ws://127.0.0.1:9301/ws");
-                // // var state = await RemoteRepository.ws.ConnectWebSocket(new Uri("ws://127.0.0.1:9301/ws"), null);
-                // Console.WriteLine("btnclick");
-                // foreach (var item in repo.OrderItems)
-                //     Console.WriteLine($"item: {item.Id} {item.ProductId} {item.ProductId}");
+            Console.WriteLine("btnclick");
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            Console.WriteLine("IN BTNCLICK THREAD!");
+            ClientWebSocket cws = new ClientWebSocket();
+            cws.ConnectAsync(new Uri("ws://127.0.0.1:9301/ws"), CancellationToken.None);
+
+            var t = new Thread(() => {
+                try
+                {
+                    // foreach (var item in repo.OrderItems)
+                    //     Console.WriteLine($"item: {item.Id} {item.ProductId} {item.ProductId}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            });
         }
     }
 }

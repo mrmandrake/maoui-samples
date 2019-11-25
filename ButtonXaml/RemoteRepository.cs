@@ -11,6 +11,8 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using WebAssembly;
+using ClientWebSocket = WebAssembly.Net.WebSockets.ClientWebSocket;
 
 namespace ButtonXaml
 {
@@ -19,10 +21,6 @@ namespace ButtonXaml
         private readonly Func<Expression, Task<IEnumerable<DynamicObject>>> _dataProvider;
 
         public static JsonSerializerSettings serializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto }.ConfigureRemoteLinq();
-
-        public static WSHelper ws = new WSHelper();
-
-        public ClientWebSocket cws = null;
 
         public class OrderItem
         {
@@ -35,37 +33,23 @@ namespace ButtonXaml
 
         public RemoteRepository()
         {
-            cws = WSHelper.CreateWebSocket();
-
+            ClientWebSocket cws = new ClientWebSocket();
+            cws.ConnectAsync(new Uri("ws://127.0.0.1:9301/ws"), CancellationToken.None);
             _dataProvider = async expression =>
             {
                 IEnumerable<DynamicObject> result = null;
                 try
                 {
-                    try
-                    {
-                        var rcvBuffer = new ArraySegment<byte>(new byte[4096]);
-                        Console.WriteLine("connection");
-                        await cws.ConnectAsync(new Uri("ws://127.0.0.1:9301/ws"), CancellationToken.None);
-                        Console.WriteLine("sending");
-                        await cws.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes("test")), WebSocketMessageType.Text, true, CancellationToken.None);
-                        Console.WriteLine("receving");
-                        // var r = await cws.ReceiveAsync(rcvBuffer, CancellationToken.None);
-
-                    }
-                    catch (Exception exc)
-                    {
-                        Console.WriteLine($"{exc.Message} / {exc.InnerException.Message}");
-                    }
                     // Console.WriteLine("remote repo:sending to ws://127.0.0.1:9301/ws");
                     // string json = Newtonsoft.Json.JsonConvert.SerializeObject(expression, serializerSettings);
                     // Console.WriteLine("serializiation:" + json);
                     // Console.WriteLine("pre:");
-                    // await ws.WebSocketSendText(json);
-                    // var reply = await ws.ReceiveHostCloseWebSocket();
+                    // await cws.Sendas(json);
+                    // var reply = await cws.ReceiveHostCloseWebSocket();
                     // System.Threading.Thread.Sleep(1000);
-                    // var reply = await ws.WebSocketRecvText();
+                    // reply = await cws.WebSocketRecvText();
                     // Console.WriteLine($"reply: {reply}");
+                    Console.WriteLine("inthread!!");
                 }
                 catch (Exception e)
                 {
@@ -73,21 +57,6 @@ namespace ButtonXaml
                 }
 
                 return result;
-
-                //entry.Text = recv;
-                //using (var client = new TcpClient(server, port))
-                //{
-                //    using (var stream = client.GetStream())
-                //    {
-                //        stream.Write(expression);
-                //        result = stream.Read<IEnumerable<DynamicObject>>();
-                //        stream.Close();
-                //    }
-
-                //    client.Close();
-                //}
-
-                // return result;
             };
         }
 

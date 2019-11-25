@@ -11,6 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="WebAssembly.Bindings">
+      <HintPath>..\..\mono-wasm\framework\WebAssembly.Bindings.dll</HintPath>
+    </Reference>  
+    <Reference Include="WebAssembly.Net.WebSockets">
+      <HintPath>..\..\mono-wasm\framework\WebAssembly.Net.WebSockets.dll</HintPath>
+    </Reference>      
     <Reference Include="Aqua">
       <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Aqua.dll</HintPath>
     </Reference>

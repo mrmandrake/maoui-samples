@@ -1,4 +1,6 @@
 #!/bin/bash
+export WASM_SDK=~/Projects/wasm/mono-wasm
+#export EMSDK=/mnt/c/src/emsdk
 echo $# arguments 
 if [ $# == 2 ]
 then 
@@ -21,9 +23,9 @@ then
             echo "multithread build..."
             if [ $2 == "Debug" ]
             then
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish --debugrt $1.dll --threads
+                mono $WASM_SDK/packager.exe --copy=always --out=./publish --debugrt $1.dll --threads
             else
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish $1.dll --threads
+                mono $WASM_SDK/packager.exe --copy=always --out=./publish $1.dll --threads
             fi
 
 

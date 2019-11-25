@@ -1,6 +1,6 @@
 #!/bin/sh
 echo $# arguments 
-if [ $# == 3 ]
+if [ $# == 2 ]
 then
     echo "Assembly name $1"
     CONF="Debug"
@@ -11,8 +11,8 @@ then
         CONF=$2
     fi
 
-    echo "calling build $1 $CONF $3"
-    ./build.sh $1 $CONF $3
+    echo "calling build $1 $CONF"
+    ./build.sh $1 $CONF
 
     echo "clearing chrome cache..."
     rm -R ~/Library/Caches/Google/Chrome/Default/Cache
