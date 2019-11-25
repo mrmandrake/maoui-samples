@@ -1,6 +1,6 @@
 #!/bin/bash
 echo $# arguments 
-if [ $# == 3 ]
+if [ $# == 2 ]
 then 
     if [ "$2" == "Debug" ] || [ "$2" == "Release" ]
     then
@@ -18,25 +18,14 @@ then
         cd ./bin/$2/netstandard2.1
         echo "moved in "
         pwd
-        if [ $3 == "mt" ]
-        then
             echo "multithread build..."
             if [ $2 == "Debug" ]
             then
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish -debug $1.dll --threads
+                mono ../mono-wasm/packager.exe --copy=always --out=./publish --debugrt $1.dll --threads
             else
                 mono ../mono-wasm/packager.exe --copy=always --out=./publish $1.dll --threads
             fi
 
-        else
-            echo "NO multithread"
-            if [ $2 == "Debug" ]
-            then
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish -debug $1.dll
-            else
-                mono ../mono-wasm/packager.exe --copy=always --out=./publish $1.dll
-            fi
-        fi
 
         mkdir ./publish/
         mkdir ./publish/css
@@ -44,9 +33,6 @@ then
         cp -rvf ../../../../../maoui/assets/*.* ./publish/
         cp -rvf ../../../../../maoui/assets/css/*.* ./publish/css/
         cp -rvf ../../../../../maoui/assets/js/*.* ./publish/
-    else
-        echo "Configuration unknown: selecting Debug"
-        $2 = "Debug"
     fi
 else
     echo "illegal number of parameters"

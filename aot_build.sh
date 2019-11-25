@@ -15,29 +15,18 @@ then
         cp -v ~/.nuget/packages/xamarin.forms/4.3.0.991211/lib/netstandard2.0/*.dll ./bin/$2/netstandard2.1
         cp -v ~/.nuget/packages/xamarin.forms/4.3.0.991211/lib/netstandard2.0/*.pdb ./bin/$2/netstandard2.1
         cp -v ~/.nuget/packages/newtonsoft.json/12.0.3/lib/netstandard2.0/*.dll ./bin/$2/netstandard2.1
-        cp -v ../../../../../maoui/netstandard2.1/*.dll ./bin/$2/netstandard2.1
-        cp -v ../../../../../maoui/netstandard2.1/*.pdb ./bin/$2/netstandard2.1
         cd ./bin/$2/netstandard2.1
+	rm WebAssembly.bindings.dll
         echo "moved in "
         pwd
 
         echo "AOT multithread build..."
-        if [ $2 -eq "Debug" ]
+        if [ $2 == "Debug" ]
         then
-            mono $WASM_SDK/packager.exe --emscripten-sdkdir=$EMSDK --mono-sdkdir=$WASM_SDK  -appdir=bin/aot --builddir=obj/aot --link-mode=SdkOnly --threads --aot -debug $1.dll
+		mono $WASM_SDK/packager.exe --emscripten-sdkdir=$EMSDK --mono-sdkdir=$WASM_SDK -appdir=bin_aot --builddir=aot --aot --template=$WASM_SDK/runtime.js --link-mode=SdkOnly --asset=$WASM_SDK/sample.html --asset=$WASM_SDK/server.py --debugrt $1.dll
         else
-            mono $WASM_SDK/packager.exe --emscripten-sdkdir=$EMSDK --mono-sdkdir=$WASM_SDK  -appdir=bin/aot --builddir=obj/aot --link-mode=SdkOnly --threads --aot $1.dll
+		mono $WASM_SDK/packager.exe --emscripten-sdkdir=$EMSDK --mono-sdkdir=$WASM_SDK -appdir=bin_aot --builddir=aot --aot --template=$WASM_SDK/runtime.js --link-mode=SdkOnly --asset=$WASM_SDK/sample.html --asset=$WASM_SDK/server.py $1.dll
         fi
-
-        mkdir ./publish/
-        mkdir ./publish/css
-        mkdir ./publish/js
-        cp -rvf ../../../../../maoui/assets/*.* ./publish/
-        cp -rvf ../../../../../maoui/assets/css/*.* ./publish/css/
-        cp -rvf ../../../../../maoui/assets/js/*.* ./publish/
-    else
-        echo "Configuration unknown: selecting Debug"
-        $2 = "Debug"
     fi
 else
     echo "illegal number of parameters"
