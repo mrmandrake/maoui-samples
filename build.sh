@@ -12,9 +12,12 @@ then
         dotnet build -p:Configuration=$2
         echo "current directory:"
         pwd
-        cp -v ~/.nuget/packages/xamarin.forms/4.3.0.991211/lib/netstandard2.0/*.dll ./bin/$2/netstandard2.1
-        cp -v ~/.nuget/packages/xamarin.forms/4.3.0.991211/lib/netstandard2.0/*.pdb ./bin/$2/netstandard2.1
+        cp -v ~/Projects/wasm/Xamarin.Forms/Xamarin.Forms.Xaml/bin/Debug/netstandard2.1/*.dll ./bin/$2/netstandard2.1
+        cp -v ~/Projects/wasm/Xamarin.Forms/Xamarin.Forms.Xaml/bin/Debug/netstandard2.1/*.pdb ./bin/$2/netstandard2.1
+        cp -v ~/Projects/wasm/mono/netcore/System.Private.CoreLib/bin/x64/netstandard2.1/*.dll ./bin/$2/netstandard2.1
+        cp -v ~/Projects/wasm/mono/netcore/System.Private.CoreLib/bin/x64/netstandard2.1/*.pdb ./bin/$2/netstandard2.1
         cp -v ~/.nuget/packages/newtonsoft.json/12.0.3/lib/netstandard2.0/*.dll ./bin/$2/netstandard2.1
+        cp -v ~/.nuget/packages/newtonsoft.json/12.0.3/lib/netstandard2.0/*.pdb ./bin/$2/netstandard2.1
         cp -v ../../../../../maoui/netstandard2.1/*.dll ./bin/$2/netstandard2.1
         cp -v ../../../../../maoui/netstandard2.1/*.pdb ./bin/$2/netstandard2.1
         cd ./bin/$2/netstandard2.1
@@ -23,9 +26,9 @@ then
             echo "multithread build..."
             if [ $2 == "Debug" ]
             then
-                mono $WASM_SDK/packager.exe --copy=always --out=./publish --debugrt $1.dll --threads
+                mono $WASM_SDK/packager.exe --copy=always --out=./publish --debugrt $1.dll
             else
-                mono $WASM_SDK/packager.exe --copy=always --out=./publish $1.dll --threads
+                mono $WASM_SDK/packager.exe --copy=always --out=./publish $1.dll
             fi
 
 

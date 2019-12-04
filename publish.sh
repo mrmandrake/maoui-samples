@@ -1,14 +1,18 @@
 #!/bin/sh
+CONF="Debug"
 echo $# arguments 
-if [ $# == 2 ]
+if [ $# == 1 ] || [ $# == 2 ]
 then
     echo "Assembly name $1"
-    CONF="Debug"
-    if [ $2 != "Debug" ] && [ $2 != "Release" ]
+
+    if [ $# == 2 ]
     then
-        echo "Configuration unkonwn: selecting Debug"
+        if [ $2 == "Debug" ] || [ $2 == "Release" ]
+        then
+            CONF=$2
+        fi
     else
-        CONF=$2
+        echo "Configuration unkonwn: selecting Debug"        
     fi
 
     echo "calling build $1 $CONF"

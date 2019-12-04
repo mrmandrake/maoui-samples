@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WebAssembly;
 using ClientWebSocket = WebAssembly.Net.WebSockets.ClientWebSocket;
 
-namespace WasmClientWebSocketTest {
+namespace WasmWebSocket{
 	public class Client {
 		static ArraySegment<byte> clientBuffer = WebSocket.CreateClientBuffer (100, 100);
 
@@ -16,7 +16,6 @@ namespace WasmClientWebSocketTest {
 		{
 			messageArea = output;
 			Console.WriteLine ("WebSocket Client ready.");
-
 		}
 
 		static async void checkWebSocket (Uri server, string protocols = "")

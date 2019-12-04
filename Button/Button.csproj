@@ -8,4 +8,13 @@
     <ProjectReference Include="..\..\maoui\Maoui.Forms\Maoui.Forms.csproj" />
     <ProjectReference Include="..\..\maoui\Maoui\Maoui.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\..\Xamarin.Forms\Xamarin.Forms.Core\bin\Debug\netstandard2.1\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Xaml">
+      <HintPath>..\..\Xamarin.Forms\Xamarin.Forms.Xaml\bin\Debug\netstandard2.1\Xamarin.Forms.Xaml.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
