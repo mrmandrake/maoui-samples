@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Xamarin.Forms" Version="4.3.0.991211" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +33,12 @@
     </Reference>
     <Reference Include="Maoui.Forms">
       <HintPath>..\..\maoui\Maoui.Forms\bin\Debug\netstandard2.1\Maoui.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core">
+      <HintPath>..\..\Xamarin.Forms\Xamarin.Forms.Core\bin\Debug\netstandard2.1\Xamarin.Forms.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Platform">
+      <HintPath>..\..\Xamarin.Forms\Xamarin.Forms.Core\bin\Debug\netstandard2.1\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

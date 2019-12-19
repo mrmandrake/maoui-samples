@@ -14,8 +14,8 @@ then
         pwd
         cp -v ~/Projects/wasm/Xamarin.Forms/Xamarin.Forms.Xaml/bin/Debug/netstandard2.1/*.dll ./bin/$2/netstandard2.1
         cp -v ~/Projects/wasm/Xamarin.Forms/Xamarin.Forms.Xaml/bin/Debug/netstandard2.1/*.pdb ./bin/$2/netstandard2.1
-        cp -v ~/Projects/wasm/mono/netcore/System.Private.CoreLib/bin/x64/netstandard2.1/*.dll ./bin/$2/netstandard2.1
-        cp -v ~/Projects/wasm/mono/netcore/System.Private.CoreLib/bin/x64/netstandard2.1/*.pdb ./bin/$2/netstandard2.1
+        cp -v ~/Projects/wasm/mono/artifacts/obj/System.Private.CoreLib/Debug/netcoreapp2.1/*.dll ./bin/$2/netstandard2.1
+        cp -v ~/wasm/mono/artifacts/obj/System.Private.CoreLib/Debug/netcoreapp2.1/*.pdb ./bin/$2/netstandard2.1
         cp -v ~/.nuget/packages/newtonsoft.json/12.0.3/lib/netstandard2.0/*.dll ./bin/$2/netstandard2.1
         cp -v ~/.nuget/packages/newtonsoft.json/12.0.3/lib/netstandard2.0/*.pdb ./bin/$2/netstandard2.1
         cp -v ../../../../../maoui/netstandard2.1/*.dll ./bin/$2/netstandard2.1

@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using Aqua.Dynamic;
+using Newtonsoft.Json;
+using Remote.Linq;
+using Remote.Linq.Expressions;
 using Maoui;
 using System.Threading;
 using Xamarin.Forms;
@@ -14,6 +20,61 @@ using System.Threading.Tasks;
 
 namespace WasmWebSocket
 {
+public class RemoteRepository
+    {
+        private readonly Func<Expression, IEnumerable<DynamicObject>> _dataProvider;
+
+        public static JsonSerializerSettings serializerSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto }.ConfigureRemoteLinq();
+
+        public class OrderItem
+        {
+            public int Id { get; set; }
+
+            public int ProductId { get; set; }
+
+            public int Quantity { get; set; }
+        }
+
+        private static string _result = null;
+
+        public async static void sendrecv(string json) {
+            Console.WriteLine("ws call.... passing" + json);
+
+            ClientWebSocket cws = new ClientWebSocket();
+            {
+                var buffer = new ArraySegment<byte> (new byte [4096]);                 
+                await cws.ConnectAsync(new Uri("ws://127.0.0.1:9301/ws"), CancellationToken.None);
+                await cws.SendAsync(new ArraySegment<byte> (Encoding.UTF8.GetBytes(json)), WebSocketMessageType.Text, true, CancellationToken.None);
+                await cws.ReceiveAsync(buffer, CancellationToken.None);
+                _result =  Encoding.UTF8.GetString(buffer);                  
+            }
+
+            Console.WriteLine("....ws call");
+        }
+
+        public RemoteRepository()
+        {
+            _dataProvider = expression =>
+            {
+                Console.WriteLine("_dataProvider>>");
+                try {           
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(expression, serializerSettings);
+                    sendrecv(json); 
+                    Console.WriteLine("deserializing:" + _result);
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<DynamicObject>>(_result, serializerSettings);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+
+                Console.WriteLine("<<_dataProvider");
+                return null;
+            };
+        }
+
+        public IQueryable<OrderItem> OrderItems => RemoteQueryable.Factory.CreateQueryable<OrderItem>(_dataProvider);
+    }
+
     class Program
     {
         static async void TestHttp()
@@ -54,12 +115,17 @@ namespace WasmWebSocket
         {
             Console.WriteLine("ws call....");
             ClientWebSocket cws = new ClientWebSocket();
-            //await var t =  cws.SendAsync(new Uri("ws://127.0.0.1:9301/ws"), CancellationToken.None);
             await cws.ConnectAsync(new Uri("ws://127.0.0.1:9301/ws"), CancellationToken.None);
             await cws.SendAsync(new ArraySegment<byte> (Encoding.UTF8.GetBytes("{test}")), WebSocketMessageType.Text, true, CancellationToken.None);
             var buffer = new ArraySegment<byte> (new byte [4096]);
             var result = await cws.ReceiveAsync(buffer, CancellationToken.None);
             Console.WriteLine("....ws call -> " + Encoding.UTF8.GetString(buffer));
+        }
+
+        static async void TestRLinq() {
+            RemoteRepository repo = new RemoteRepository();
+            foreach (var item in repo.OrderItems)
+                Console.WriteLine($"item: {item.Id} {item.ProductId} {item.ProductId}");
         }
 
         static void TestThread()
@@ -82,6 +148,7 @@ namespace WasmWebSocket
             }
             Console.WriteLine("....Thread Test");
         }
+
         static void Main()
         {
             Forms.Init();
@@ -100,9 +167,10 @@ namespace WasmWebSocket
                 button.Text = $"Clicked {count} times";
 
                 //TestThread();
-                TestHttp();
-                TestWS();
+                // TestHttp();
+                // TestWS();
                 //TestTask();
+                TestRLinq();                
             };
             UI.Publish("/", page.GetMaouiElement());
         }

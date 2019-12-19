@@ -32,5 +32,17 @@
     <Reference Include="Xamarin.Forms.Xaml">
       <HintPath>..\..\Xamarin.Forms\Xamarin.Forms.Xaml\bin\Debug\netstandard2.1\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="Aqua">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Aqua.dll</HintPath>
+    </Reference>
+    <Reference Include="Aqua.Newtonsoft.Json">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Aqua.Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Remote.Linq">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Remote.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remote.Linq.Newtonsoft.Json">
+      <HintPath>..\..\maoui\Remote.Linq.Newtonsoft.Json\bin\Debug\netstandard2.1\Remote.Linq.Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
